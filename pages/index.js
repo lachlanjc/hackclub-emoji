@@ -211,7 +211,7 @@ const Page = ({ top, channels, users, custom }) => (
       p + p {
         margin-top: 0.5rem;
       }
-      p > a {
+      a {
         text-decoration: underline;
         text-underline-position: under;
         -webkit-text-underline-position: under;
