@@ -21,7 +21,7 @@ export default ({ custom = [], symbol, label, lg = false }) => {
   const isCustom = includes(Object.keys(custom), label)
   const customLabel = isCustom ? stripColons(label) : label
   return (
-    <span>
+    <span title={`:${customLabel}:`}>
       {isCustom ? (
         <img src={custom[customLabel]} alt={customLabel} width={lg ? 36 : 24} />
       ) : (
