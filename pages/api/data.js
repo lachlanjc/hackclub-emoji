@@ -2,6 +2,7 @@ import fetch from 'isomorphic-unfetch'
 import { pickBy, includes, omit, has } from 'lodash'
 
 const dataPath = 'https://emoji-ranker--hacker22.repl.co/data'
+const channelsPath = 'https://emoji-ranker--hacker22.repl.co/channeldata'
 const customPath = 'https://emoji-ranker--hacker22.repl.co/custompng'
 
 export default async (req, res) => {
@@ -13,6 +14,20 @@ export default async (req, res) => {
   users = pickBy(users, user => user.reactions.total > 0)
   users = Object.values(users)
   users = users.map(({ uuid, name, reactions }) => ({
+    uuid,
+    name,
+    reactionsTotal: reactions.total,
+    reactions: omit(reactions, 'total')
+  }))
+
+  let channels = await fetch(channelsPath).then(data => data.json())
+  channels = pickBy(
+    channels,
+    channel =>
+      channel.reactions.total > 0 && channel.name.split(' ')[0] === channel.name
+  )
+  channels = Object.values(channels)
+  channels = channels.map(({ uuid, name, reactions }) => ({
     uuid,
     name,
     reactionsTotal: reactions.total,
@@ -39,6 +54,6 @@ export default async (req, res) => {
     .sort((a, b) => b[1] - a[1])
     .reduce((o, [k, v]) => ((o[k] = v), o), {})
 
-  const json = { top, users, custom }
+  const json = { top, channels, users, custom }
   res.json(json)
 }

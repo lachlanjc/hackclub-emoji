@@ -1,11 +1,10 @@
 import Head from 'next/head'
 import fetch from 'isomorphic-unfetch'
-import { omit } from 'lodash'
 import theme, { colors } from '../components/theme'
 
 import Emoji from '../components/emoji'
 
-const Page = ({ top, users, custom }) => (
+const Page = ({ top, channels, users, custom }) => (
   <main>
     <Head>
       <title>Hack Club Emoji</title>
@@ -34,12 +33,38 @@ const Page = ({ top, users, custom }) => (
         ))}
       </ol>
       <h2>
+        Reactions by channel
+        <span className="badge">{channels.length}</span>
+      </h2>
+      <div className="grid">
+        {channels.map(channel => (
+          <div className="grid-item" key={channel.uuid}>
+            <h3>
+              <a
+                href={`https://hackclub.slack.com/messages/${channel.uuid}`}
+                target=")blank"
+              >
+                #{channel.name}
+              </a>
+            </h3>
+            <ol>
+              {Object.keys(channel.reactions).map(name => (
+                <li key={name}>
+                  <Emoji label={name} custom={custom} />{' '}
+                  <span>{channel.reactions[name]}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+      <h2>
         Top users’ reactions
         <span className="badge">{users.length}</span>
       </h2>
-      <div className="users">
+      <div className="grid">
         {users.map(user => (
-          <div className="user" key={user.uuid}>
+          <div className="grid-item" key={user.uuid}>
             <h3>
               {user.name}
               <span className="badge">{user.reactionsTotal}</span>
@@ -130,7 +155,7 @@ const Page = ({ top, users, custom }) => (
           color: ${colors.darker};
         }
       }
-      .users {
+      .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
