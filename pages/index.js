@@ -5,7 +5,7 @@ import theme, { colors } from '../components/theme'
 
 import Emoji from '../components/emoji'
 
-const Page = ({ users, custom }) => (
+const Page = ({ top, users, custom }) => (
   <main>
     <Head>
       <title>Hack Club Emoji</title>
@@ -25,14 +25,24 @@ const Page = ({ users, custom }) => (
     </Head>
     <main className="container">
       <h1>Hack Club Emoji</h1>
+      <h2>Top reactions</h2>
+      <ol className="lg">
+        {Object.keys(top).map(name => (
+          <li key={name}>
+            <Emoji label={name} custom={custom} lg /> <span>{top[name]}</span>
+          </li>
+        ))}
+      </ol>
       <h2>
-        Top users by reactions <span className="badge">{users.length}</span>
+        Top users’ reactions
+        <span className="badge">{users.length}</span>
       </h2>
       <div className="users">
         {users.map(user => (
           <div className="user" key={user.uuid}>
             <h3>
-              {user.name} <span className="badge">{user.reactionsTotal}</span>
+              {user.name}
+              <span className="badge">{user.reactionsTotal}</span>
             </h3>
             <ol>
               {Object.keys(user.reactions).map(name => (
@@ -87,27 +97,24 @@ const Page = ({ users, custom }) => (
       li {
         display: flex;
         align-items: center;
-        line-height: 1.125;
       }
       h1 {
         font-size: 3rem;
       }
       h1:first-of-type {
         color: ${colors.red};
-        margin-bottom: 2rem;
       }
       h2 {
         font-size: 2rem;
-      }
-      h2:first-of-type {
+        margin-top: 2rem;
         margin-bottom: 1.5rem;
       }
       h3 {
         font-size: 1.25rem;
       }
       .badge {
-        color: ${colors.white};
         background: ${colors.muted};
+        color: ${colors.white};
         display: inline-block;
         font-size: 0.75rem;
         font-weight: 600;
@@ -117,6 +124,11 @@ const Page = ({ users, custom }) => (
         border-radius: 24px;
         text-align: center;
         margin-left: 0.75rem;
+      }
+      @media (prefers-color-scheme: dark) {
+        .badge {
+          color: ${colors.darker};
+        }
       }
       .users {
         display: grid;
@@ -129,11 +141,12 @@ const Page = ({ users, custom }) => (
         padding-left: 0;
         list-style: none;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(3em, 1fr));
         grid-gap: 0.75rem;
       }
-      ol li span {
-        margin-left: 0.25rem;
+      ol.lg {
+        font-size: 1.75em;
+        margin-bottom: 3rem;
       }
     `}</style>
     <style jsx global>{`
@@ -145,7 +158,7 @@ const Page = ({ users, custom }) => (
         font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI,
           Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
           Segoe UI Symbol;
-        line-height: 1.66;
+        line-height: 1.5;
         margin: 0;
         min-height: 100vh;
       }
@@ -167,10 +180,11 @@ const Page = ({ users, custom }) => (
       h2,
       h3,
       p {
+        line-height: 1.125;
         margin: 0;
       }
       p + p {
-        margin-top: 0.25rem;
+        margin-top: 0.5rem;
       }
       p > a {
         text-decoration: underline;

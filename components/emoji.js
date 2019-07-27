@@ -17,12 +17,24 @@ const stripColons = str => {
   return str
 }
 
-export default ({ custom = [], symbol, label }) => {
+export default ({ custom = [], symbol, label, lg = false }) => {
   const isCustom = includes(Object.keys(custom), label)
   const customLabel = isCustom ? stripColons(label) : label
-  return isCustom ? (
-    <img src={custom[customLabel]} alt={customLabel} width={24} />
-  ) : (
-    <Emoji symbol={emojiLib.get(label)} label={label} />
+  return (
+    <span>
+      {isCustom ? (
+        <img src={custom[customLabel]} alt={customLabel} width={lg ? 36 : 24} />
+      ) : (
+        <Emoji symbol={emojiLib.get(label)} label={label} />
+      )}
+      <style jsx>{`
+        span {
+          display: inline-block;
+          width: 1.25em;
+          margin-right: 0.5rem;
+          line-height: 0;
+        }
+      `}</style>
+    </span>
   )
 }
