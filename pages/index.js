@@ -53,6 +53,17 @@ const Page = ({ users, custom }) => (
         .
       </p>
       <p>
+        Both the{' '}
+        <a href="https://github.com/lachlanjc/hackclub-emoji/" target="_blank">
+          frontend
+        </a>{' '}
+        &{' '}
+        <a href="https://repl.it/@Hacker22/emoji-ranker" target="_blank">
+          backend
+        </a>{' '}
+        are open source.
+      </p>
+      <p>
         Made by{' '}
         <a href="https://github.com/lachlanjc" target="_blank">
           Lachlan Campbell
@@ -157,6 +168,9 @@ const Page = ({ users, custom }) => (
       h3,
       p {
         margin: 0;
+      }
+      p + p {
+        margin-top: 0.25rem;
       }
       p > a {
         text-decoration: underline;
