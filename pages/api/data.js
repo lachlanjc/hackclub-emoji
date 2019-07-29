@@ -11,7 +11,7 @@ export default async (req, res) => {
   // TODO: remap aliases
 
   let users = await fetch(dataPath).then(data => data.json())
-  users = pickBy(users, user => user.reactions.total > 0)
+  users = pickBy(users, user => user.reactions.total > 1)
   users = Object.values(users)
   users = users.map(({ uuid, name, reactions }) => ({
     uuid,
@@ -24,7 +24,7 @@ export default async (req, res) => {
   channels = pickBy(
     channels,
     channel =>
-      channel.reactions.total > 0 && channel.name.split(' ')[0] === channel.name
+      channel.reactions.total > 1 && channel.name.split(' ')[0] === channel.name
   )
   channels = Object.values(channels)
   channels = channels.map(({ uuid, name, reactions }) => ({
