@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-unfetch'
 import { pickBy, includes, omit, has } from 'lodash'
 
-const dataPath = 'https://emoji-ranker--hacker22.repl.co/data'
-const channelsPath = 'https://emoji-ranker--hacker22.repl.co/channeldata'
-const customPath = 'https://emoji-ranker--hacker22.repl.co/custompng'
+const dataPath = 'https://emoji-ranker.now.sh/data'
+const channelsPath = 'https://emoji-ranker.now.sh/channeldata'
+const customPath = 'https://emoji-ranker.now.sh/custompng'
 
 export default async (req, res) => {
   let custom = await fetch(customPath).then(data => data.json())
