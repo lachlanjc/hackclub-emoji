@@ -81,7 +81,7 @@ const Page = ({ top, channels, users, custom }) => (
       </div>
       <p>
         An analysis of the emoji reactions used in the{' '}
-        <a href="https://hackclub.com/community/" target="_blank">
+        <a href="https://hackclub.com/slack/" target="_blank">
           Hack Club Slack
         </a>
         .
@@ -92,7 +92,7 @@ const Page = ({ top, channels, users, custom }) => (
           frontend
         </a>{' '}
         &{' '}
-        <a href="https://repl.it/@Hacker22/emoji-ranker" target="_blank">
+        <a href="https://github.com/neelr/emoji-ranker" target="_blank">
           backend
         </a>{' '}
         are open source.
