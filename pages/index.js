@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import fetch from 'isomorphic-unfetch'
 import theme, { colors } from '../components/theme'
 
 import Emoji from '../components/emoji'
@@ -26,7 +25,7 @@ const Page = ({ top, channels, users, custom }) => (
       <h1>Hack Club Emoji</h1>
       <h2>Top reactions</h2>
       <ol className="lg">
-        {Object.keys(top).map(name => (
+        {Object.keys(top).map((name) => (
           <li key={name}>
             <Emoji label={name} custom={custom} lg /> <span>{top[name]}</span>
           </li>
@@ -37,7 +36,7 @@ const Page = ({ top, channels, users, custom }) => (
         <span className="badge">{channels.length}</span>
       </h2>
       <div className="grid">
-        {channels.map(channel => (
+        {channels.map((channel) => (
           <div className="grid-item" key={channel.uuid}>
             <h3>
               <a
@@ -48,7 +47,7 @@ const Page = ({ top, channels, users, custom }) => (
               </a>
             </h3>
             <ol>
-              {Object.keys(channel.reactions).map(name => (
+              {Object.keys(channel.reactions).map((name) => (
                 <li key={name}>
                   <Emoji label={name} custom={custom} />{' '}
                   <span>{channel.reactions[name]}</span>
@@ -63,14 +62,14 @@ const Page = ({ top, channels, users, custom }) => (
         <span className="badge">{users.length}</span>
       </h2>
       <div className="grid">
-        {users.map(user => (
+        {users.map((user) => (
           <div className="grid-item" key={user.uuid}>
             <h3>
               {user.name}
               <span className="badge">{user.reactionsTotal}</span>
             </h3>
             <ol>
-              {Object.keys(user.reactions).map(name => (
+              {Object.keys(user.reactions).map((name) => (
                 <li key={name}>
                   <Emoji label={name} custom={custom} />{' '}
                   <span>{user.reactions[name]}</span>
@@ -180,9 +179,9 @@ const Page = ({ top, channels, users, custom }) => (
       }
       body {
         color: ${colors.slate};
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI,
-          Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-          Segoe UI Symbol;
+        font-family: 'Phantom Sans', system-ui, -apple-system,
+          BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif,
+          Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
         line-height: 1.5;
         margin: 0;
         min-height: 100vh;
@@ -236,9 +235,10 @@ const Page = ({ top, channels, users, custom }) => (
   </main>
 )
 
-Page.getInitialProps = ({ req }) =>
-  fetch((req ? `http://${req.headers.host}` : '') + '/api/data').then(res =>
-    res.json()
-  )
-
 export default Page
+
+export const getStaticProps = async ({ req }) => {
+  const api = require('./api/data').default
+  const props = await api(req)
+  return { props, unstable_revalidate: 1 }
+}

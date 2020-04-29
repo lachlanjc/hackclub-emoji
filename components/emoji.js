@@ -2,7 +2,7 @@ import Emoji from 'a11y-react-emoji'
 import emojiLib from 'node-emoji'
 import { includes } from 'lodash'
 
-const stripColons = str => {
+const stripColons = (str) => {
   const colonIndex = str.indexOf(':')
   if (colonIndex > -1) {
     // :emoji:
@@ -17,24 +17,31 @@ const stripColons = str => {
   return str
 }
 
-export default ({ custom = [], symbol, label, lg = false }) => {
+export default ({ custom = [], label, lg = false }) => {
   const isCustom = includes(Object.keys(custom), label)
   const customLabel = isCustom ? stripColons(label) : label
   return (
-    <span title={`:${customLabel}:`}>
+    <div>
       {isCustom ? (
         <img src={custom[customLabel]} alt={customLabel} width={lg ? 36 : 24} />
       ) : (
         <Emoji symbol={emojiLib.get(label)} label={label} />
       )}
       <style jsx>{`
-        span {
+        div {
           display: inline-block;
-          width: 1.25em;
+          max-width: 1.5em;
+          width: 100%;
+          white-space: nowrap;
+          overflow-x: hidden;
           margin-right: 0.5rem;
-          line-height: 0;
+        }
+        div :global(span) {
+          max-width: 1.25em;
+          text-overflow: clip;
+          display: block;
         }
       `}</style>
-    </span>
+    </div>
   )
 }

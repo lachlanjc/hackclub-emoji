@@ -1,6 +1,0 @@
-{
-  "version": 2,
-  "alias": "hackclub-emoji",
-  "name": "hackclub-emoji",
-  "builds": [{ "src": "next.config.js", "use": "@now/next" }]
-}
