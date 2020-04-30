@@ -11,12 +11,9 @@ const sortReactions = (a) =>
     .reduce((o, [k, v]) => ((o[k] = v), o), {})
 
 export default async (req, res = null) => {
-  // let custom = await fetch(customPath).then((data) => data.json())
-  // custom = pickBy(custom, (value, key) => !includes(value, 'alias'))
+  let custom = await fetch(customPath).then((data) => data.json())
+  custom = pickBy(custom, (value, key) => !includes(value, 'alias'))
   // TODO: remap aliases
-
-  // while custompng is broken…
-  let custom = []
 
   let users = await fetch(dataPath).then((data) => data.json())
   users = pickBy(users, (user) => user.reactions.total > 1)
